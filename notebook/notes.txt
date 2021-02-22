@@ -1,0 +1,11 @@
+### Build Thot base from Fedora 33 - Python 3.9
+# Run from s2i-thoth/f33-py39 folder
+docker build . -t s2i-thoth-f33-py39:0.0.1 &> build.log
+
+## Build Minimal notebook f33-py39 from Thoth f33-py39
+# Run from s2i-minimal-notebook
+s2i build . s2i-thoth-f33-py39:0.0.1 --env ENABLE_PIPENV=1 --env THOTH_ADVISE=0 --env THOTH_ERROR_FALLBACK=1 --env THOTH_DRY_RUN=0 --env THOTH_PROVENANCE_CHECK=0 s2i-minimal-notebook-f33-py39:0.0.1 &> build.log
+
+## Build Minimal-Lmod notebook f33-py39 from Minimal notebook f33-py39
+# Run from s2i-lmod-notebook
+docker build . -t s2i-minimal-lmod-notebook:0.3.0 &>build.log
