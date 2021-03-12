@@ -1,0 +1,6 @@
+Hide module file for building SciPy
+eb SciPy-bundle-2021.02-foss-2020b.eb --hide-deps=\
+Autoconf,Automake,Autotools,binutils,Bison,bzip2,CMake,cURL,DB,Eigen,expat,FFTW,flex,foss,GCC,GCCcore,gettext,GMP,gompi,help2man,hwloc,hypothesis,libarchive,libevent,libfabric,libffi,libpciaccess,libreadline,libtool,libxml2,M4,ncurses,numactl,OpenBLAS,OpenMPI,Perl,pkg-config,PMIx,pybind11,Python,ScaLAPACK,SQLite,Tcl,UCX,UnZip,xorg-macros,XZ,zlib\
+ -Dr
+
+Autoconf,Automake,Autotools,binutils,Bison,bzip2,CMake,cURL,DB,Eigen,expat,FFTW,flex,foss,GCC,GCCcore,gettext,GMP,gompi,help2man,hwloc,hypothesis,libarchive,libevent,libfabric,libffi,libpciaccess,libreadline,libtool,libxml2,M4,ncurses,numactl,OpenBLAS,OpenMPI,Perl,pkg-config,PMIx,pybind11,Python,ScaLAPACK,SQLite,Tcl,UCX,UnZip,xorg-macros,XZ,zlib

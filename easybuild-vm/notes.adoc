@@ -1,0 +1,10 @@
+== Create VM
+
+=== Create image based on F33
+Will include TACC Lmod.
+Use the `fedora33_base.sh` script.
+
+=== Install the VM into OpenShift
+Yaml file: 
+
+
