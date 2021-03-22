@@ -1,50 +1,45 @@
-function visible_hook(t)
-	local restricted_packages = {
-		"abaqus", 
-		"allinea",
-		"amber",
-		"ansys",
-		"cfour-mpi",
-		"comsol",
-		"cpmd",
-		"ddt-cpu",
-		"ddt-gpu",
-		"demon2k",
-		"dl_poly4",
-		"feko",
-		"fluent",
-		"hfss",
-		"ls-dyna",
-		"ls-dyna-mpi",
-		"ls-opt",
-		"maker",
-		"matlab",
-		"oasys-ls-dyna",
-		"orca",
-		"starccm",
-		"starccm-mixed",
-	}
-	local pathT = {}
-	local moduleName = t.sn
-	local fullName = t.fullName
-	local fn = t.fn
-	local posix = require "posix"
-	local modulePath = pathT[moduleName] or pathT[fullName]
-	if modulePath ~= nil then
-		local ftype = posix.stat(modulePath,"type") or nil
-		if ftype == nil then
-			t['isVisible'] = false
-			return
+function has_value(tab, val)
+	for index, value in ipairs(tab) do
+		if value == val then
+			return true
 		end
 	end
-	local restricted_available = os.getenv("CC_RESTRICTED") or "false"
-	if (restricted_available ~= "true") then
-		if (has_value(restricted_packages,moduleName)) then
-			t['isVisible'] = false
-			return
-		end
-	end
+	return false
 end
+
+local all_available = os.getenv("ALL_MODULES_AVAILABLE")
+
+function visible_hook(t)
+        if (all_available == "true") then
+                t['isVisible'] = true
+                return
+        end
+	local available_packages = {
+                "SciPy-bundle",
+                "R",
+                "RStudio-Server",
+                "code-server"
+        }
+	local pathT = {}
+        local moduleName = t.sn
+        local fullName = t.fullName
+        local fn = t.fn
+        local posix = require "posix"
+        local modulePath = pathT[moduleName] or pathT[fullName]
+        if modulePath ~= nil then
+                local ftype = posix.stat(modulePath,"type") or nil
+                if ftype == nil then
+                        t['isVisible'] = false
+                        return
+                end
+        end
+	if (has_value(available_packages,moduleName)) then
+                t['isVisible'] = true
+        else
+                t['isVisible'] = false
+        end
+end
+
 
 local hook      = require("Hook")
 hook.register("isVisibleHook",  visible_hook)
