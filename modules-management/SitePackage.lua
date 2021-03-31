@@ -14,12 +14,7 @@ function visible_hook(t)
                 t['isVisible'] = true
                 return
         end
-	local available_packages = {
-                "SciPy-bundle",
-                "R",
-                "RStudio-Server",
-                "code-server"
-        }
+	local available_packages = require("available_packages")
 	local pathT = {}
         local moduleName = t.sn
         local fullName = t.fullName
