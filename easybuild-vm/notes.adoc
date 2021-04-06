@@ -1,10 +1,126 @@
 == Create VM
 
-=== Create image based on F33
-Will include TACC Lmod.
-Use the `fedora33_base.sh` script.
+=== Create image based on F32 --- Not working
+Will include TACC Lmod and Easybuild.
+Run the `fedora32_base.sh` script.
 
 === Install the VM into OpenShift
-Yaml file: 
+From the wizrd, choose those characteristics:
+
+* Name: vm name
+* Description: vm description
+* OS: Fedora 31 or higher
+* Boot Source: URL
+* Image URL: https://mirror.csclub.uwaterloo.ca/fedora/linux/releases/32/Cloud/x86_64/images/Fedora-Cloud-Base-32-1.6.x86_64.raw.xz
+* Flavor: Large
+* Workload profile: server
+* Networking: virtio, Pod Networking
+* Storage: cloudinitdisk and rootdisk already entered
+    ** Change rootdisk storageclass for ocs-storagecluster-ceph-rbd
+    ** Add a disk `eb-data` of type ocs-storagecluster-ceph-rbd, 200GB, RWX
+- Advanced: change user and password to easybuild / easybuild
+And Create!
+
+=== Start the VM
+
+=== Access the VM from SSH
+* Install virtctl client (link form OpenShift Console, Command Line tools)
+
+.Run:
+----
+virtctl expose vm <fedora-vm> --port=20022 --target-port=22 --name=fedora-vm-ssh --type=NodePort 
+----
+
+.Check the service to find which port is listening:
+----
+oc get svc
+NAME            TYPE       CLUSTER-IP     EXTERNAL-IP   PORT(S)           AGE
+fedora-vm-ssh   NodePort   127.0.0.1      <none>        20022:32551/TCP   6s
+----
+(here the found port is 32551)
+
+.You can now log in via SSH with the IP address of the pod and the port:
+----
+ssh username@<node_IP_address> -p 32551
+----
+
+=== Add QEmu agent
+.Install the QEMU guest agent on the virtual machine
+----
+sudo yum install -y qemu-guest-agent
+----
+
+.Start the QEMU guest agent service
+----
+sudo systemctl start qemu-guest-agent
+----
+
+.Ensure the service is persistent
+----
+sudo systemctl enable qemu-guest-agent
+----
+
+=== Install Lmod
+----
+sudo su -
+mkdir -p /build
+cd /build && curl -LO https://github.com/TACC/Lmod/archive/8.4.28.tar.gz
+mv /build/8.4.28.tar.gz /build/Lmod-8.4.28.tar.gz
+tar xvf Lmod-8.4.28.tar.gz
+cd /build/Lmod-8.4.28 && ./configure --prefix=/opt/apps --with-fastTCLInterp=no
+make install
+rm -rf /build
+ln -s /opt/apps/lmod/lmod/init/profile /etc/profile.d/z00_lmod.sh
+----
+Then exit bash and relogin to activate.
+
+=== Add disk
+* Stop the machine
+* Create an RWX PVC based on CephFS
+* Add disk in the VM configuration
+* Restart the VM
+* Start parted /dev/vdc
+mklabel msdos
+print free
+mkpart primary ext4 0% 100%
+
+* Create mount point:
+----
+sudo mkdir /opt/apps/easybuild && sudo chown easybuild:easybuild /opt/apps/easybuild
+----
+
+Mount disk:
+----
+
+----
+
+=== Install EasyBuild
+----
+EASYBUILD_PREFIX=/opt/apps/easybuild
+curl -O https://raw.githubusercontent.com/easybuilders/easybuild-framework/develop/easybuild/scripts/bootstrap_eb.py
+python bootstrap_eb.py $EASYBUILD_PREFIX
+----
+
+=== Enable easybuild at start
+Add this to .bashrc:
+----
+EASYBUILD_PREFIX=/opt/apps/easybuild
+module use $EASYBUILD_PREFIX/modules/all && module load EasyBuild
+----
+
+=== Configure easybuild
+* Create `/opt/apps/easybuild/repos`
+* Clone repos you want ther
+* Modify config to use those repos:
+
+.Add this to ~/.config/easybuild/config.cfg
+----
+[basic]
+repositorypath = /opt/apps/easybuild/repos/easybuild-easyconfigs/easybuild/easyconfigs/:/opt/apps/easybuild/repos/odh-easybuilds/easyconfigs/
+robot-paths = %(repositorypath)s
+installpath = /opt/apps/easybuild
+download-timeout = 30
+#robot-paths = %(repositorypath)s:%(DEFAULT_ROBOT_PATHS)s
+----
 
 

@@ -50,18 +50,17 @@ fi
 
 virt-customize -a base_image.qcow2 \
   --run-command "adduser easybuild && echo \"easybuild:easybuild\" | chpasswd && usermod -aG wheel easybuild" \
-  --install git,tar,which,bzip2,xz,make,automake,gcc,gcc-c++,patch,zlib-devel,openssl-devel,unzip,iproute,file,pam-devel,ant,sudo,lua,lua-devel,lua-posix,lua-filesystem,tcl,python-keyring \
+  --install git,tar,which,bzip2,xz,make,automake,gcc,gcc-c++,patch,zlib-devel,openssl-devel,unzip,iproute,file,pam-devel,ant,sudo,lua,lua-devel,lua-posix,lua-filesystem,tcl,python-keyring,http-parser \
   --run-command "yum clean all && \
-                rpm -ivh https://kojipkgs.fedoraproject.org/packages/http-parser/2.9.4/3.fc33/x86_64/http-parser-2.9.4-3.fc33.x86_64.rpm && \
                 mkdir -p /build && \
-                cd /build && curl -LO https://github.com/TACC/Lmod/archive/8.4.20.tar.gz && \
-                mv /build/8.4.20.tar.gz /build/Lmod-8.4.20.tar.gz && \
-                tar xvf Lmod-8.4.20.tar.gz && \
-                cd /build/Lmod-8.4.20 && ./configure --prefix=/opt/apps --with-fastTCLInterp=no && \
+                cd /build && curl -LO https://github.com/TACC/Lmod/archive/8.4.28.tar.gz && \
+                mv /build/8.4.28.tar.gz /build/Lmod-8.4.28.tar.gz && \
+                tar xvf Lmod-8.4.28.tar.gz && \
+                cd /build/Lmod-8.4.28 && ./configure --prefix=/opt/apps --with-fastTCLInterp=no && \
                 make install && \
                 rm -rf /build && \
                 ln -s /opt/apps/lmod/lmod/init/profile /etc/profile.d/z00_lmod.sh" \
-  --selinux-relabel \
+  --selinux-relabel
 
 virt-sysprep -a base_image.qcow2
 
