@@ -60,6 +60,22 @@ sudo systemctl start qemu-guest-agent
 sudo systemctl enable qemu-guest-agent
 ----
 
+=== Install additional packages
+.Additional packages
+----
+sudo yum install -y git tar which bzip2 xz make automake gcc gcc-c++ patch zlib-devel openssl-devel unzip iproute file pam-devel ant sudo lua lua-devel lua-posix lua-filesystem tcl python-keyring http-parser rdma-core-devel nano wget
+----
+
+.Update everything
+----
+sudo yum update -y
+----
+
+.Clean
+----
+sudo yum clean all
+----
+
 === Install Lmod
 ----
 sudo su -
@@ -110,7 +126,7 @@ module use $EASYBUILD_PREFIX/modules/all && module load EasyBuild
 
 === Configure easybuild
 * Create `/opt/apps/easybuild/repos`
-* Clone repos you want ther
+* Clone repos you want there
 * Modify config to use those repos:
 
 .Add this to ~/.config/easybuild/config.cfg
