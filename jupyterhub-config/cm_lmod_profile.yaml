@@ -1,0 +1,23 @@
+kind: ConfigMap
+apiVersion: v1
+metadata:
+  annotations:
+    kfctl.kubeflow.io/kfdef-instance: opendatahub.opendatahub
+  name: jupyter-easybuild-profile
+  namespace: opendatahub
+  labels:
+    component.opendatahub.io/name: jupyterhub
+    opendatahub.io/component: 'true'
+    jupyterhub: singleuser-profiles
+data:
+  jupyterhub-singleuser-profiles.yaml: |
+    profiles:
+    - name: LMod Notebook
+      images:
+      - 's2i-lmod-notebook:v0.4.6'
+      volumes:
+        - name: easybuild-data
+          persistentVolumeClaim:
+            claimName: easybuild-data
+            readOnly: false
+          mountPath: /opt/apps/easybuild
