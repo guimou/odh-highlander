@@ -13,6 +13,8 @@ RUN yum -y update && \
             lua lua-devel lua-posix lua-filesystem \
             tcl python-keyring http-parser rdma-core-devel && \
     yum -y clean all
+
+RUN pip install attrs sortedcontainers
             
 # Build LMOD
 ENV LMOD_VER 8.5.7
