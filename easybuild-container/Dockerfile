@@ -9,13 +9,11 @@ RUN yum -y update && \
     yum -y install git tar which bzip2 xz \
             make automake gcc gcc-c++ patch \
             zlib-devel openssl-devel unzip iproute file \
-            pam-devel ant sudo \
+            pam-devel ant sudo screen nano \
             lua lua-devel lua-posix lua-filesystem \
             tcl python-keyring http-parser rdma-core-devel && \
     yum -y clean all
 
-RUN pip install attrs sortedcontainers
-            
 # Build LMOD
 ENV LMOD_VER 8.5.7
 
@@ -35,10 +33,13 @@ RUN ./configure --prefix=/opt/apps --with-fastTCLInterp=no && \
 
 USER 1001
 
-WORKDIR /opt/apps
+COPY .bashenv /opt/apps/src/.bashenv
+
+WORKDIR /opt/apps/src
 
 ENV PATH="/opt/apps/easybuild/bin:${PATH}"
 ENV PYTHONPATH="/opt/apps/easybuild/lib/python3.8/site-packages:${PYTHONPATH}"
 ENV XDG_CONFIG_DIRS="/opt/apps/easybuild"
+ENV BASH_ENV=/opt/apps/src/.bashenv
 
-CMD source /opt/apps/lmod/lmod/init/profile && /usr/bin/tail -f /dev/null
+CMD /usr/bin/tail -f /dev/null
