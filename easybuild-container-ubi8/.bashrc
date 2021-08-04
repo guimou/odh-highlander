@@ -1,0 +1,1 @@
+source /opt/apps/lmod/lmod/init/profile

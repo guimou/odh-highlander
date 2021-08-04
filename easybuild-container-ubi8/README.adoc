@@ -1,0 +1,16 @@
+== EasyBuild Container image
+
+This folder contains code and instructions to build and deploy a container image based on EasyBuild that can be used to create the modules for the Lmod extension to Jupyter.
+
+- Create RWX PVC (big one!)
+- Mount PVC as /opt/apps/easybuild
+
+=== Test image
+
+- Create temporary folder, `easybuild-data` in this example
+- Run with:
+
+[source,bash]
+----
+docker run --rm -it -v /your_path/easybuild-data:/opt/apps/easybuild:z easybuild-ubi8-py38:v0.0.1
+----
