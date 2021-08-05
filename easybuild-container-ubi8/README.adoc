@@ -5,12 +5,20 @@ This folder contains code and instructions to build and deploy a container image
 - Create RWX PVC (big one!)
 - Mount PVC as /opt/apps/easybuild
 
+=== Build image
+
+[source,bash]
+----
+docker build . -t easybuild-thoth-ubi8-py38:your_version
+----
+
 === Test image
 
 - Create temporary folder, `easybuild-data` in this example
 - Run with:
 
+.First launch to initialize easybuild
 [source,bash]
 ----
-docker run --rm -it -v /your_path/easybuild-data:/opt/apps/easybuild:z easybuild-ubi8-py38:v0.0.1
+docker run --rm -it -v /your_path/easybuild-data:/opt/apps/easybuild:z easybuild-thoth-ubi8-py38:v0.0.1 /opt/apps/src/easybuild_install.sh
 ----

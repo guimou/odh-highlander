@@ -40,7 +40,7 @@ RUN curl -L http://github.com/TACC/Lmod/archive/${LMOD_VER}.tar.gz -o /build/Lmo
 
 USER 1001
 
-COPY easybuild_install.sh easybuild_run.sh config.cfg /opt/apps/src/
+COPY easybuild_install.sh easybuild_run.sh usage config.cfg /opt/apps/src/
 
 WORKDIR /opt/apps/src
 
@@ -49,3 +49,6 @@ COPY .bashrc /opt/apps/src/.bashrc
 ENV PATH="/opt/apps/easybuild/bin:${PATH}"
 ENV PYTHONPATH="/opt/apps/easybuild/lib/python3.8/site-packages:${PYTHONPATH}"
 ENV XDG_CONFIG_DIRS="/opt/apps/easybuild"
+
+# Set the default CMD to print the usage of the language image.
+CMD /opt/apps/src/usage
