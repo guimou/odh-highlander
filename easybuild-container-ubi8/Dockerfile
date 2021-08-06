@@ -1,4 +1,4 @@
-FROM quay.io/thoth-station/s2i-thoth-ubi8-py38:latest
+FROM registry.access.redhat.com/ubi8/python-39:latest
 
 # Install Dependencies
 USER root
@@ -6,7 +6,7 @@ USER root
 RUN adduser easybuild && echo "easybuild:easybuild" | chpasswd && usermod -aG wheel easybuild
 
 RUN yum -y update && \
-    yum -y install iproute sudo nano lua binutils \
+    yum -y install iproute sudo nano lua binutils perl perl-libintl libtool diffutils \
     http://mirror.centos.org/centos/8-stream/BaseOS/x86_64/os/Packages/pam-1.3.1-15.el8.x86_64.rpm \
     http://mirror.centos.org/centos/8-stream/BaseOS/x86_64/os/Packages/pam-devel-1.3.1-15.el8.x86_64.rpm \
     http://mirror.centos.org/centos/8-stream/AppStream/x86_64/os/Packages/ant-lib-1.10.5-1.module_el8.0.0+47+197dca37.noarch.rpm \
@@ -20,9 +20,15 @@ RUN yum -y update && \
     http://mirror.centos.org/centos/8-stream/BaseOS/x86_64/os/Packages/infiniband-diags-32.0-4.el8.x86_64.rpm \
     http://mirror.centos.org/centos/8-stream/BaseOS/x86_64/os/Packages/librdmacm-32.0-4.el8.x86_64.rpm \
     http://mirror.centos.org/centos/8-stream/BaseOS/x86_64/os/Packages/ibacm-32.0-4.el8.x86_64.rpm \
-    http://mirror.centos.org/centos/8-stream/BaseOS/x86_64/os/Packages/rdma-core-devel-32.0-4.el8.x86_64.rpm && \
+    http://mirror.centos.org/centos/8-stream/BaseOS/x86_64/os/Packages/rdma-core-devel-32.0-4.el8.x86_64.rpm \
+    http://mirror.centos.org/centos/8-stream/AppStream/x86_64/os/Packages/perl-libintl-perl-1.29-2.el8.x86_64.rpm \
+    http://mirror.centos.org/centos/8-stream/AppStream/x86_64/os/Packages/perl-Text-Unidecode-1.30-5.el8.noarch.rpm \
+    http://mirror.centos.org/centos/8-stream/PowerTools/x86_64/os/Packages/perl-Unicode-EastAsianWidth-1.33-13.el8.noarch.rpm \
+    http://mirror.centos.org/centos/8-stream/PowerTools/x86_64/os/Packages/help2man-1.47.6-1.el8.noarch.rpm \
+    http://mirror.centos.org/centos/8-stream/PowerTools/x86_64/os/Packages/texinfo-6.5-6.el8.x86_64.rpm && \
     yum -y clean all && \
-    rm -rf /var/cache/yum
+    rm -rf /var/cache/yum && \
+    pip install wheel
 
 # Build LMOD
 ENV LMOD_VER 8.5.9
@@ -47,7 +53,8 @@ WORKDIR /opt/apps/src
 COPY .bashrc /opt/apps/src/.bashrc
 
 ENV PATH="/opt/apps/easybuild/bin:${PATH}"
-ENV PYTHONPATH="/opt/apps/easybuild/lib/python3.8/site-packages:${PYTHONPATH}"
+ENV MODULEPATH="/opt/apps/easybuild/modules:${MODULEPATH}"
+ENV PYTHONPATH="/opt/apps/easybuild/lib/python3.9/site-packages:${PYTHONPATH}"
 ENV XDG_CONFIG_DIRS="/opt/apps/easybuild"
 
 # Set the default CMD to print the usage of the language image.
