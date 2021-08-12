@@ -51,6 +51,7 @@ COPY easybuild_install.sh easybuild_run.sh usage config.cfg /opt/apps/src/
 WORKDIR /opt/apps/src
 
 COPY .bashrc /opt/apps/src/.bashrc
+COPY .bashrc /opt/apps/src/.profile
 
 ENV PATH="/opt/apps/easybuild/bin:${PATH}"
 ENV MODULEPATH="/opt/apps/easybuild/modules:${MODULEPATH}"
