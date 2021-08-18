@@ -1,0 +1,27 @@
+== Open Data Hub enhancement with Lmod and Easybuild
+
+NOTE: *TL;DR*: container images on a shared data science platform on Kubernetes (e.g. Open Data Hub on OpenShift) are hard to manage if you want to provide users with many different libraries and applications, at various versions. +
+This repo shows how to use Lmod, EasyBuild and a shared PVC to bring thousands of those instantly in their notebook environment with a single container image!
+
+=== Intro
+
+==== The problem
+
+If you manage shared data science environments based on Kubernetes, like link:http://opendatahub.io/[Open Data Hub] on link:https://www.redhat.com/en/technologies/cloud-computing/openshift[OpenShift], you may face a container image management problem. That is especially true with interactive environments like Jupyter-as-a-Service. Your users will want to use various Jupyter images that include this or this library or application, at this or this version. Of course it's clearly impossible to create behemoth images including each and every library you're asked, or to create and manage hundreds (thousands?) of variations of handpicked selection of libraries and apps to fit a specific need.
+Granted, you could let the users pip or conda install everything from scratch every time they launch the environment. But it's not that practical, and not all packages are available through this mean, especially your own private applications.
+
+.Your options
+image::doc/img/container_images.png[Your options]
+
+==== The solution
+
+In this repo you will find tools and instructions for a different approach to this problem, thanks to the HPC community who has solved it a long time ago! This is kind of a portage of their solution to Kubernetes.
+
+The idea is that instead of building the needed applications and libraries into the container images, you can store all of them in a read-only shared library on a ROX volume (read-only, but by many pods simultaneously), and mount this volume inside the Pods at spawn time. +
+Then, leveraging Linux Environment Modules with link:https://lmod.readthedocs.io/en/latest/[Lmod], it gets easy to dynamically "load" what you need, when you need it, instantly... Pretty neat, uh?
+
+.Dynamic loading
+image::doc/img/dynamic_loading.png[dynamic_loading]
+
+And with link:https://easybuild.io/[Easybuild], you have access to a few thousands of ready to use (or more accurately to compile, we'll come to that) software packages, plus the full machinery to easily create you owns.
+
