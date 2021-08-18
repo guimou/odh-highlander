@@ -4,11 +4,11 @@ cat <<EOF
 This is an s2i image of easybuild: https://docs.easybuild.io/en/latest/index.html
 
 Requirements:
-- Create a volume for easybuild data: local folder for testing, PVC when deploying on k8s/OpenShift.
+- Create a volume for easybuild data: local folder for testing, PVC when deploying on Kubernetes/OpenShift.
 - Always mount this volume at /opt/apps/easybuild when running the container image.
 
 Installation:
-- Start the image with the command: /opt/apps/src/easybuild_install.sh. E.g.:
+- Start the image as easybuild user with the command /opt/apps/src/easybuild_install.sh, mounting the volume created before. E.g. with Docker:
 docker run --rm -it -u easybuild -v your_path/easybuild-data:/opt/apps/easybuild:z easybuild-ubi8-py38:v0.0.1 /opt/app-root/src/easybuild_install.sh
 
 Usage:
@@ -17,5 +17,8 @@ docker run --rm -it -u easybuild -v your_path/easybuild-data:/opt/apps/easybuild
 - This will start the image in an endless loop. You can then connect to the running container to work with eb or module commands.
 - To initialize the environment variables when connecting to container you can either:
   * force interactive mode, e.g.: docker exec -it -u easybuild container_name bash -l
-  * source init file as your first command, e.g.: /opt/apps/lmod/lmod/init/profile
+  * manually initialize the environment by running:
+    /opt/apps/lmod/lmod/init/profile
+    EASYBUILD_PREFIX=/opt/apps/easybuild
+    module use $EASYBUILD_PREFIX/modules/all
 EOF
