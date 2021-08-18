@@ -9,13 +9,13 @@ Requirements:
 
 Installation:
 - Start the image with the command: /opt/apps/src/easybuild_install.sh. E.g.:
-docker run --rm -it -v your_path/easybuild-data:/opt/apps/easybuild:z easybuild-thoth-ubi8-py38:v0.0.1 /opt/apps/src/easybuild_install.sh
+docker run --rm -it -u easybuild -v your_path/easybuild-data:/opt/apps/easybuild:z easybuild-ubi8-py38:v0.0.1 /opt/app-root/src/easybuild_install.sh
 
 Usage:
 - Start the image with the command: /opt/apps/src/easybuild_run.sh. E.g.:
-docker run --rm -it -v your_path/easybuild-data:/opt/apps/easybuild:z easybuild-thoth-ubi8-py38:v0.0.1 /opt/apps/src/easybuild_run.sh
+docker run --rm -it -u easybuild -v your_path/easybuild-data:/opt/apps/easybuild:z easybuild-thoth-ubi8-py38:v0.0.1 /opt/app-root/src/easybuild_run.sh
 - This will start the image in an endless loop. You can then connect to the running container to work with eb or module commands.
 - To initialize the environment variables when connecting to container you can either:
-  * force interactive mode, e.g.: docker exec -it container_name bash -l
+  * force interactive mode, e.g.: docker exec -it -u easybuild container_name bash -l
   * source init file as your first command, e.g.: /opt/apps/lmod/lmod/init/profile
 EOF

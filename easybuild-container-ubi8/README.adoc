@@ -2,8 +2,8 @@
 
 This folder contains code and instructions to build and deploy a container image based on EasyBuild that can be used to create the modules for the Lmod extension to Jupyter.
 
-- Create RWX PVC (big one!)
-- Mount PVC as /opt/apps/easybuild
+* Create RWX PVC (big one!)
+* Mount PVC as /opt/apps/easybuild
 
 === Build image
 
@@ -14,11 +14,35 @@ docker build . -t easybuild-thoth-ubi8-py38:your_version
 
 === Test image
 
-- Create temporary folder, `easybuild-data` in this example
-- Run with:
+* Create temporary folder, `easybuild-data` in this example
+* Run with:
 
 .First launch to initialize easybuild
 [source,bash]
 ----
 docker run --rm -it -v /your_path/easybuild-data:/opt/apps/easybuild:z easybuild-thoth-ubi8-py38:v0.0.1 /opt/apps/src/easybuild_install.sh
 ----
+
+=== Add personal repo
+
+From easybuild container:
+
+.Create repos folder and change to it
+[source,bash]
+----
+mkdir -p /opt/apps/easybuild/repos && cd /opt/apps/easybuild/repos
+----
+
+.Clone your repo
+[source,bash]
+----
+git clone https://github.com/guimou/odh-easybuilds.git
+----
+
+.Add new repo to config (replace `odh-easybuilds` by your repo folder)
+[source,bash]
+----
+sed -i '\%^repositorypath% s%$%:/opt/apps/easybuild/repos/odh-easybuilds/%' /opt/apps/easybuild/easybuild.d/config.cfg
+----
+
+NOTE: If you're not a `sed` fan, just append `:path_to_repo` to te end of the `repositorypath` line in the configuration file.
