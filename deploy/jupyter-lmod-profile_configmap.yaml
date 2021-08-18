@@ -4,7 +4,6 @@ metadata:
   annotations:
     kfctl.kubeflow.io/kfdef-instance: opendatahub.opendatahub
   name: jupyter-lmod-profile
-  namespace: opendatahub
   labels:
     component.opendatahub.io/name: jupyterhub
     opendatahub.io/component: 'true'

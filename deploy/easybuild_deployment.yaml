@@ -19,7 +19,7 @@ spec:
         app.kubernetes.io/part-of: odh-easybuild
         deployment: odh-easybuild
     spec:
-      containers:
+      initContainers:
         - resources:
             limits:
               cpu: '2'
@@ -27,14 +27,30 @@ spec:
             requests:
               cpu: 500m
               memory: 500Mi
-          name: odh-dashboard
+          name: easybuild-init
           imagePullPolicy: IfNotPresent
-          image: 'quay.io/guimou/easybuild-ubi8-py39:v0.0.1'
+          image: 'quay.io/guimou/easybuild-ubi8-py39:latest'
           volumeMounts:
             - mountPath: /opt/apps/easybuild
               name: easybuild-data
           command:
-            - /opt/apps/src/easybuild_install.sh
+            - /opt/app-root/src/easybuild_install.sh
+      containers:
+        - resources:
+            limits:
+              cpu: '8'
+              memory: 8192Mi
+            requests:
+              cpu: 500m
+              memory: 500Mi
+          name: easybuild-run
+          imagePullPolicy: IfNotPresent
+          image: 'quay.io/guimou/easybuild-ubi8-py39:latest'
+          volumeMounts:
+            - mountPath: /opt/apps/easybuild
+              name: easybuild-data
+          command:
+            - /opt/app-root/src/easybuild_run.sh
       volumes:
         - name: easybuild-data
           persistentVolumeClaim:

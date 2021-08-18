@@ -23,6 +23,6 @@ spec:
         opendatahub.io/notebook-software: '[{"name":"Python","version":"v3.8.3"}]'
       from:
         kind: DockerImage
-        name: 'quay.io/guimou/s2i-minimal-py38-lmod-notebook:v0.0.2'
+        name: 'quay.io/guimou/s2i-minimal-py38-lmod-notebook:latest'
       referencePolicy:
         type: Source
