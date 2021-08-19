@@ -55,16 +55,17 @@ COPY easybuild_install.sh easybuild_run.sh usage config.cfg /opt/app-root/src/
 
 COPY .bash_profile /opt/app-root/src/.bash_profile
 
-RUN chown -R easybuild:easybuild /opt/app-root/src
-
-USER easybuild
-
-WORKDIR /opt/app-root/src
+RUN chown -R easybuild:0 ${APP_ROOT} && \
+    fix-permissions ${APP_ROOT} -P
 
 ENV PATH="/opt/apps/easybuild/bin:${PATH}"
 ENV MODULEPATH="/opt/apps/easybuild/modules:${MODULEPATH}"
 ENV PYTHONPATH="/opt/apps/easybuild/lib/python3.9/site-packages:${PYTHONPATH}"
 ENV XDG_CONFIG_DIRS="/opt/apps/easybuild"
+
+USER easybuild
+
+WORKDIR /opt/app-root/src
 
 # Set the default CMD to print the usage of the language image.
 CMD /opt/app-root/src/usage
