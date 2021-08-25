@@ -1,2 +1,2 @@
 *.log
-easybuild-data/easybuild-data/*
+easybuild-data/easybuild-data*/*

@@ -42,10 +42,6 @@ RUN curl -L http://github.com/TACC/Lmod/archive/${LMOD_VER}.tar.gz -o /build/Lmo
     rm -rf /build && \
     ln -s /opt/apps/lmod/lmod/init/profile /etc/profile.d/z00_lmod.sh
 
-# Create default paths for RStudio (instead of custom config)
-RUN mkdir -p -m1777 /var/lib/rstudio-server
-RUN mkdir -p -m1777 /var/run/rstudio-server
-
 # Add easybuild user and let it run the show
 RUN adduser easybuild && \
     echo "easybuild:easybuild" | chpasswd && usermod -aG wheel easybuild && \
