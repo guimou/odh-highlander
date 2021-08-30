@@ -23,7 +23,10 @@ RUN yum -y update && \
     http://mirror.centos.org/centos/8-stream/AppStream/x86_64/os/Packages/perl-Text-Unidecode-1.30-5.el8.noarch.rpm \
     http://mirror.centos.org/centos/8-stream/PowerTools/x86_64/os/Packages/perl-Unicode-EastAsianWidth-1.33-13.el8.noarch.rpm \
     http://mirror.centos.org/centos/8-stream/PowerTools/x86_64/os/Packages/help2man-1.47.6-1.el8.noarch.rpm \
-    http://mirror.centos.org/centos/8-stream/PowerTools/x86_64/os/Packages/texinfo-6.5-6.el8.x86_64.rpm && \
+    http://mirror.centos.org/centos/8-stream/PowerTools/x86_64/os/Packages/texinfo-6.5-6.el8.x86_64.rpm \
+    http://mirror.centos.org/centos/8-stream/BaseOS/x86_64/os/Packages/sgml-common-0.6.3-50.el8.noarch.rpm \
+    http://mirror.centos.org/centos/8-stream/AppStream/x86_64/os/Packages/docbook-dtds-1.0-69.el8.noarch.rpm \
+    http://mirror.centos.org/centos/8-stream/AppStream/x86_64/os/Packages/docbook-style-xsl-1.79.2-9.el8.noarch.rpm && \
     yum -y clean all && \
     rm -rf /var/cache/yum && \
     pip install wheel python-graph-core python-graph-dot
