@@ -20,9 +20,9 @@ spec:
         opendatahub.io/notebook-python-dependencies: >-
           [{"name":"JupyterLab","version": "3.0.14"}, {"name":
           "Notebook","version": "6.3.0"}]
-        opendatahub.io/notebook-software: '[{"name":"Python","version":"v3.8.3"}]'
+        opendatahub.io/notebook-software: '[{"name":"Python","version":"v3.8.6"}]'
       from:
         kind: DockerImage
-        name: 'quay.io/guimou/s2i-minimal-py38-lmod-notebook:latest'
+        name: 'quay.io/guimou/s2i-minimal-py38-lmod-notebook:2020b-latest'
       referencePolicy:
         type: Source
