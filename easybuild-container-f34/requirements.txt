@@ -1,0 +1,6 @@
+-i https://pypi.org/simple
+wheel==0.37.0
+python-graph-core==1.8.2
+python-graph-dot==1.8.2
+hypothesis==6.18.0
+pybind11==2.7.1

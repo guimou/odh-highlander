@@ -10,9 +10,9 @@ RUN yum -y update && \
             pam-devel ant sudo screen nano \
             lua lua-devel lua-posix lua-filesystem \
             tcl python-keyring http-parser rdma-core-devel \
-            help2man flex ncurses cmake rust perl && \
-    rm -rf /var/cache/yum && \
-    pip install wheel python-graph-core python-graph-dot
+            help2man flex ncurses cmake rust perl openblas flexiblas \
+            numactl ucx libfabric libpciaccess hwloc pmix openmpi fftw && \
+    rm -rf /var/cache/yum
 
 # Build LMOD
 ENV LMOD_VER 8.5.13
@@ -37,7 +37,8 @@ COPY . /opt/app-root/src/
 
 COPY .bash_profile /opt/app-root/src/.bash_profile
 
-RUN chown -R easybuild:0 ${APP_ROOT} && \
+RUN pip install -r /opt/app-root/src/requirements.txt && \
+    chown -R easybuild:0 ${APP_ROOT} && \
     fix-permissions ${APP_ROOT} -P
 
 ENV PATH="/opt/apps/easybuild/bin:${PATH}"
