@@ -28,11 +28,10 @@ RUN yum -y update && \
     http://mirror.centos.org/centos/8-stream/AppStream/x86_64/os/Packages/docbook-dtds-1.0-69.el8.noarch.rpm \
     http://mirror.centos.org/centos/8-stream/AppStream/x86_64/os/Packages/docbook-style-xsl-1.79.2-9.el8.noarch.rpm && \
     yum -y clean all && \
-    rm -rf /var/cache/yum && \
-    pip install wheel python-graph-core python-graph-dot
+    rm -rf /var/cache/yum
 
 # Build LMOD
-ENV LMOD_VER 8.5.9
+ENV LMOD_VER 8.5.13
 
 RUN mkdir -p /build/Lmod-${LMOD_VER}
 
@@ -50,11 +49,12 @@ RUN adduser easybuild && \
     echo "easybuild:easybuild" | chpasswd && usermod -aG wheel easybuild && \
     echo "easybuild ALL=(ALL:ALL) NOPASSWD: ALL" | sudo tee /etc/sudoers.d/easybuild
 
-COPY easybuild_install.sh easybuild_run.sh usage config.cfg /opt/app-root/src/
+COPY . /opt/app-root/src/
 
 COPY .bash_profile /opt/app-root/src/.bash_profile
 
-RUN chown -R easybuild:0 ${APP_ROOT} && \
+RUN pip install wheel python-graph-core python-graph-dot && \
+    chown -R easybuild:0 ${APP_ROOT} && \
     fix-permissions ${APP_ROOT} -P
 
 ENV PATH="/opt/apps/easybuild/bin:${PATH}"
