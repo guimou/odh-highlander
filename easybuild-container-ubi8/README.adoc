@@ -42,7 +42,7 @@ git clone https://github.com/guimou/odh-easybuilds.git
 .Add new repo to config (replace `odh-easybuilds` by your repo folder)
 [source,bash]
 ----
-sed -i '\%^repositorypath% s%$%:/opt/apps/easybuild/repos/odh-easybuilds/%' /opt/apps/easybuild/easybuild.d/config.cfg
+sed -i '\!^robot-paths! s!$!:/opt/apps/easybuild/repos/odh-easybuilds/!' /opt/apps/easybuild/easybuild.d/config.cfg
 ----
 
-NOTE: If you're not a `sed` fan, just append `:path_to_repo` to te end of the `repositorypath` line in the configuration file.
+NOTE: If you're not a `sed` fan, just append `:path_to_repo` to te end of the `robotpath` line in the configuration file.
