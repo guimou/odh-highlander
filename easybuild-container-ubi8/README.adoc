@@ -1,5 +1,7 @@
 == EasyBuild Container image
 
+WARNING: This image is based on ubi8. Because of its glibc version, packages built with gcc 10.3 (foss-2021a base) or newer may not work. Please consider the Fedora 34 based image instead.
+
 This folder contains code and instructions to build and deploy a container image based on EasyBuild that can be used to create the modules for the Lmod extension to Jupyter.
 
 * Create RWX PVC (big one!)
