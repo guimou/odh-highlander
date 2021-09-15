@@ -13,7 +13,7 @@ data:
     profiles:
     - name: Modular JupyterLab
       images:
-      - 's2i-minimal-py38-lmod-notebook:latest'
+      - 's2i-generic-datascience-lmod-notebook:latest'
       volumes:
         - name: easybuild-data
           persistentVolumeClaim:
