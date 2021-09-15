@@ -2,8 +2,6 @@
 
 image::doc/img/banner.png[Open Data Hub]
 
- +
-
 *TL;DR*: container images on a shared data science platform on Kubernetes (e.g. Open Data Hub on OpenShift) are hard to manage if you want to provide users with many different libraries and applications, at various versions. +
 This repo shows how to use Lmod, EasyBuild and a shared PVC to bring thousands of those instantly in their notebook environment with a single container image!
 
