@@ -17,7 +17,7 @@ spec:
             requests:
               cpu: 500m
               memory: 500Mi
-          image: quay.io/guimou/easybuild-data:full-latest
+          image: quay.io/guimou/easybuild-data:py39-full_latest
           imagePullPolicy: Always
           command:
             - /opt/app-root/src/copy_data.sh

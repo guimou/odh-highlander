@@ -3,10 +3,8 @@ apiVersion: image.openshift.io/v1
 metadata:
   annotations:
     opendatahub.io/notebook-image-desc: >-
-      Jupyter notebook image with a set of data science libraries that advanced
-      AI/ML notebooks will use as a base image to provide a standard for
-      libraries avialable in all notebooks
-      A module extension allows to dynamically load libraries and applications
+      Jupyter notebook image with a set of data science libraries.
+      A module extension allows to dynamically load libraries and applications.
     opendatahub.io/notebook-image-name: Standard Data Science - Modular
     opendatahub.io/notebook-image-url: 'https://github.com/thoth-station/s2i-generic-datascience-notebook'
   name: s2i-generic-datascience-lmod-notebook

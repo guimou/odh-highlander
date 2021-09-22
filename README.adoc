@@ -2,14 +2,14 @@
 
 image::doc/img/banner.png[Open Data Hub]
 
-*TL;DR*: container images on a shared data science platform on Kubernetes (e.g. Open Data Hub on OpenShift) are hard to manage if you want to provide users with many different libraries and applications, at various versions. +
-This repo shows how to use Lmod, EasyBuild and a shared PVC to bring thousands of those instantly in their notebook environment with a single container image!
+*TL;DR*: container images on a data science platform like link:http://opendatahub.io/[Open Data Hub] are hard to manage if you want to provide users with many different libraries or applications, moreover at various versions. +
+This repo shows how you can use EasyBuild, Lmod and a shared PVC to bring thousands of those instantly in the notebook environments with a single container image!
 
 === Intro
 
 ==== The problem
 
-If you manage shared data science environments based on Kubernetes, like link:http://opendatahub.io/[Open Data Hub] on link:https://www.redhat.com/en/technologies/cloud-computing/openshift[OpenShift], you may face a container image management problem. That is especially true with interactive environments like Jupyter-as-a-Service. Your users will want to use various Jupyter images that include this or this library or application, at this or this version. Of course it's clearly impossible to create behemoth images including each and every library you're asked, or to create and manage hundreds (thousands?) of variations of handpicked selection of libraries and apps to fit a specific need.
+If you manage shared data science environments based on Kubernetes, like link:http://opendatahub.io/[Open Data Hub] on link:https://www.redhat.com/en/technologies/cloud-computing/openshift[OpenShift], you may face a container image management problem. That is especially true with interactive environments like Jupyter-as-a-Service. Your users will want to use various Jupyter images that include this or this library or application, at this or this version. Of course it's clearly impossible to create behemoth images including each and every library you're asked for, or to create and manage hundreds (thousands?) of variations of handpicked selection of libraries and apps to fit a specific need.
 Granted, you could let the users pip or conda install everything from scratch every time they launch the environment. But it's not that practical, and not all packages are available through this mean, especially your own private applications.
 
 .Your options
@@ -27,3 +27,56 @@ image::doc/img/dynamic_loading.png[dynamic_loading]
 
 And with link:https://easybuild.io/[Easybuild], you have access to a few thousands of ready to use (or more accurately to compile, we'll come to that) software packages, plus the full machinery to easily create you owns.
 
+=== Demo environment
+
+Here are the instructions to create and populate a shared libray with common modules and applications (PyTorch, Tensorflow, R, RStudio, VS Code,...).
+
+==== Prerequisites
+
+* A deployment of Open Data Hub in your OpenShift cluster. Only the JupyterHub part is necessary to show the usage of the shared library with notebooks.
+* Open Data Hub is deployed into the `opendatahub` namespace, and Jupyter Notebooks are created in this same namespace. If your configuration is different you will have to adapt the configuration files and deployment instructions.
+* The ability to create RWX (Read-Write Many) PVCs. In this deployment, we use the `ocs-storagecluster-cephfs` storage class provided by OpenShift Data Foundation.
+
+==== Deployment
+
+.Switch to the right project
+[source,bash]
+----
+oc project opendatahub
+----
+
+.Create the PVC that will host the library
+[source,bash]
+----
+oc apply -f deploy/01_easybuild-data_pvc.yaml
+----
+
+.Initialize the PVC with data
+[source,bash]
+----
+oc apply -f deploy/02_easybuild-data-init_job.yaml
+----
+
+NOTE: This part can take some time as the package is about 15GB. It has to be downloaded then injected into the PVC.
+
+.Create the ImageStream for the module-enabled notebook image
+[source,bash]
+----
+oc apply -f deploy/03_s2i-generic-datascience-lmod-notebook_imagestream.yaml
+----
+
+.Create the ConfigMap to enable the notebook image in JupyterHub
+[source,bash]
+----
+oc apply -f deploy/04_jupyter-lmod-profile_configmap.yaml
+----
+
+**Optional**
+
+This step is only if you want to spawn an easybuild environment to build other modules or create yourown ones.
+
+.Deploy the EasyBuild container
+[source,bash]
+----
+oc apply -f deploy/05_easybuild_deployment.yaml
+----
