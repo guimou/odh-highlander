@@ -1,3 +1,11 @@
+ifdef::env-github[]
+:tip-caption: :bulb:
+:note-caption: :information_source:
+:important-caption: :heavy_exclamation_mark:
+:caution-caption: :fire:
+:warning-caption: :warning:
+endif::[]
+
 == Open Data Hub with Easybuild and Lmod, or thousands of libraries and applications without installation!
 
 image::doc/img/banner.png[Open Data Hub]
