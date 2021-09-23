@@ -178,7 +178,7 @@ You can then copy paste the full code in you first notebook cell or in your scri
 .Python Code
 image::doc/img/lmod_generate_python_code.png[Python Code]
 
- +
+<br>
 
 [NOTE]
 ====
