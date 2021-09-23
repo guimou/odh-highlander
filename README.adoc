@@ -26,6 +26,8 @@ image::doc/img/container_images.png[Your options]
 <br>
 ++++
 
+NOTE: 
+
 ==== The solution
 
 In this repo you will find tools and instructions for a different approach to this problem, thanks to the HPC community who has solved it a long time ago! This is kind of a portage of their solution to Kubernetes.
@@ -46,11 +48,12 @@ And with link:https://easybuild.io/[Easybuild], you have access to a few thousan
 With the help of a great Jupyter extension to easily load those shared modules, it's really easy! Have a look:
 
 .Dynamic loading
-image::doc/img/jupyterlab_demo[Modules in JupyterLab]
+image::doc/img/jupyter-lmod.gif[Modules in JupyterLab]
 ++++
 <br>
 ++++
 
+NOTE: In this example I did not load the module from the start on purpose to trigger the error, so I had to restart the notebook kernel. It was just to show you how easy and fast it is! More below about modules loading and creating collection of softwares,...
 
 === Demo environment installation
 
@@ -228,9 +231,4 @@ image::doc/img/lmod_generate_python_code.png[Python Code]
 <br>
 ++++
 
-[NOTE]
-====
-Of course, for this to work in your notebook or your script, the container image or environment you are using must be "lmod-enabled", and the library with the relevant modules must be accessible/mounted into this environment.
-====
-
-
+NOTE: Of course, for this to work in your notebook or your script, the container image or environment you are using must be "lmod-enabled", and the library with the relevant modules must be accessible/mounted into this environment.
