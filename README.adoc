@@ -22,6 +22,9 @@ Granted, you could let the users pip or conda install everything from scratch ev
 
 .Your options
 image::doc/img/container_images.png[Your options]
+++++
+<br>
+++++
 
 ==== The solution
 
@@ -32,6 +35,9 @@ Then, leveraging Linux Environment Modules with link:https://lmod.readthedocs.io
 
 .Dynamic loading
 image::doc/img/dynamic_loading.png[dynamic_loading]
+++++
+<br>
+++++
 
 And with link:https://easybuild.io/[Easybuild], you have access to a few thousands of ready to use (or more accurately to compile, we'll come to that) software packages, plus the full machinery to easily create you owns.
 
@@ -41,6 +47,9 @@ With the help of a great Jupyter extension to easily load those shared modules, 
 
 .Dynamic loading
 image::doc/img/jupyterlab_demo[Modules in JupyterLab]
+++++
+<br>
+++++
 
 
 === Demo environment installation
@@ -105,6 +114,9 @@ From you JupyterHub spawner, you now have a new notebook image available, `Stand
 
 .JupyterHub Launcher
 image::doc/img/jupyterhub_launcher.png[JupyterHub Launcher]
+++++
+<br>
+++++
 
 In this JupyterLab instance you have access to a new extension, "Softwares". Here are basic instructions on how to use it.
 
@@ -112,31 +124,49 @@ The list of available modules is splitted in two sections. The "featured" module
 
 .Module list
 image::doc/img/lmod_full_list.png[Module list]
+++++
+<br>
+++++
 
 You can use the filter box to search for a specific module (just enter a few letters). Filtering happens simultaneously on both lists:
 
 .Filtered list
 image::doc/img/lmod_filtered_list.png[Filtered list]
+++++
+<br>
+++++
 
 If you click on a module name, a pop-up will give you more information: description, dependencies,...
 
 .Module info
 image::doc/img/lmod_module_info.png[Module info]
+++++
+<br>
+++++
 
 To load a module, hover on it and click on the "Load" button:
 
 .Module loading
 image::doc/img/lmod_hover.png[Module loading]
+++++
+<br>
+++++
 
 The module and all its dependencies is automatically loaded (torchvision in this example):
 
 .Module loaded
 image::doc/img/lmod_loaded.png[Module loaded]
+++++
+<br>
+++++
 
 To unload a module, hover it the "loaded" list, and click "Unload":
 
 .Unload Module
 image::doc/img/lmod_unload.png[Unload Module]
+++++
+<br>
+++++
 
 The module and its dependencies will be automatically unloaded.
 
@@ -152,17 +182,29 @@ To create a collection, load the modules you want, click on the icon and give a 
 
 .Create Collection
 image::doc/img/lmod_create_collection.png[Create Collection]
+++++
+<br>
+++++
 
 .Name and Save Collection
 image::doc/img/lmod_create_collection_save.png[Name and Save Collection]
+++++
+<br>
+++++
 
 When you want to bring back this environment, just click on the Restore icon, and select and load your collection.
 
 .Restore Collection
 image::doc/img/lmod_restore_collection.png[Restore Collection]
+++++
+<br>
+++++
 
 .Restore Collection
 image::doc/img/lmod_restore_collection_restore.png[Restore Collection]
+++++
+<br>
+++++
 
 ===== Imports
 
@@ -173,12 +215,18 @@ Click on the "Generate Python code" icon:
 .Generate Code
 image::doc/img/lmod_generate_python.png[Generate Code]
 
+++++
+<br>
+++++
+
 You can then copy paste the full code in you first notebook cell or in your script:
 
 .Python Code
 image::doc/img/lmod_generate_python_code.png[Python Code]
 
+++++
 <br>
+++++
 
 [NOTE]
 ====
