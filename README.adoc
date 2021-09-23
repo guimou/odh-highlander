@@ -170,6 +170,9 @@ You can then copy paste the full code in you first notebook cell or in your scri
 .Python Code
 image::doc/img/lmod_generate_python_code.png[Python Code]
 
-NOTE: Of course, for this to work in your notebook or your script, the container image or environment you are using must be "lmod-enabled", and the library with the relevant modules must be accessible/mounted into this environment.
+[NOTE]
+====
+Of course, for this to work in your notebook or your script, the container image or environment you are using must be "lmod-enabled", and the library with the relevant modules must be accessible/mounted into this environment.
+====
 
 
