@@ -27,7 +27,15 @@ image::doc/img/dynamic_loading.png[dynamic_loading]
 
 And with link:https://easybuild.io/[Easybuild], you have access to a few thousands of ready to use (or more accurately to compile, we'll come to that) software packages, plus the full machinery to easily create you owns.
 
-=== Demo environment
+==== What does it look like?
+
+With the help of a great Jupyter extension to easily load those shared modules, it's really easy! Have a look:
+
+.Dynamic loading
+image::doc/img/jupyterlab_demo[Modules in JupyterLab]
+
+
+=== Demo environment installation
 
 Here are the instructions to create and populate a shared libray with common modules and applications (PyTorch, Tensorflow, R, RStudio, VS Code,...).
 
@@ -73,10 +81,95 @@ oc apply -f deploy/04_jupyter-lmod-profile_configmap.yaml
 
 **Optional**
 
-This step is only if you want to spawn an easybuild environment to build other modules or create yourown ones.
+This step is only if you want to spawn an easybuild environment to build other modules or create your own ones.
 
 .Deploy the EasyBuild container
 [source,bash]
 ----
 oc apply -f deploy/05_easybuild_deployment.yaml
 ----
+
+=== Usage
+
+==== Using the "Modular" notebook image
+
+From you JupyterHub spawner, you now have a new notebook image available, `Standard Data Science - Modular`.
+
+.JupyterHub Launcher
+image::doc/img/jupyterhub_launcher.png[JupyterHub Launcher]
+
+In this JupyterLab instance you have access to a new extension, "Softwares". Here are basic instructions on how to use it.
+
+The list of available modules is splitted in two sections. The "featured" modules, and the full list:
+
+.Module list
+image::doc/img/lmod_full_list.png[Module list]
+
+You can use the filter box to search for a specific module (just enter a few letters). Filtering happens simultaneously on both lists:
+
+.Filtered list
+image::doc/img/lmod_filtered_list.png[Filtered list]
+
+If you click on a module name, a pop-up will give you more information: description, dependencies,...
+
+.Module info
+image::doc/img/lmod_module_info.png[Module info]
+
+To load a module, hover on it and click on the "Load" button:
+
+.Module loading
+image::doc/img/lmod_hover.png[Module loading]
+
+The module and all its dependencies is automatically loaded (torchvision in this example):
+
+.Module loaded
+image::doc/img/lmod_loaded.png[Module loaded]
+
+To unload a module, hover it the "loaded" list, and click "Unload":
+
+.Unload Module
+image::doc/img/lmod_unload.png[Unload Module]
+
+The module and its dependencies will be automatically unloaded.
+
+NOTE: Lmod keeps track of the loaded dependencies for each module. If two different modules share dependencies, a module unloading won't affect the other one, its dependencies will still be there. There are only unloaded when no module needs them anymore!
+
+==== Advanced functions
+
+===== Collections
+
+If you want to create a specific environment with a set of different modules that you want to use, no need to recreate this from scracth every time! You can simply load those modules, then create a "Collection". Next time, just restore this collection in two clicks.
+
+To create a collection, load the modules you want, click on the icon and give a name to the collection.
+
+.Create Collection
+image::doc/img/lmod_create_collection.png[Create Collection]
+
+.Name and Save Collection
+image::doc/img/lmod_create_collection_save.png[Name and Save Collection]
+
+When you want to bring back this environment, just click on the Restore icon, and select and load your collection.
+
+.Restore Collection
+image::doc/img/lmod_restore_collection.png[Restore Collection]
+
+.Restore Collection
+image::doc/img/lmod_restore_collection_restore.png[Restore Collection]
+
+===== Imports
+
+You can also directly work from your notebooks and your scripts to load the modules that you need. To know which modules you have to use, you can directly export the relevant Python code!
+
+Click on the "Generate Python code" icon:
+
+.Generate Code
+image::doc/img/lmod_generate_python.png[Generate Code]
+
+You can then copy paste the full code in you first notebook cell or in your script:
+
+.Python Code
+image::doc/img/lmod_generate_python_code.png[Python Code]
+
+NOTE: Of course, for this to work in your notebook or your script, the container image or environment you are using must be "lmod-enabled", and the library with the relevant modules must be accessible/mounted into this environment.
+
+
