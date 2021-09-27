@@ -11,22 +11,20 @@ endif::[]
 image::doc/img/banner.png[Open Data Hub]
 
 *TL;DR*: container images on a data science platform like link:http://opendatahub.io/[Open Data Hub] are hard to manage if you want to provide users with many different libraries or applications, moreover at various versions. +
-This repo shows how you can use EasyBuild, Lmod and a shared PVC to bring thousands of those instantly in the notebook environments with a single container image!
+This repo shows how you can use EasyBuild, Lmod and a shared PVC to bring thousands of those instantly in the notebook environments with a single container image! (Therefore the name of the project, "There can be only one...")
 
 === Intro
 
 ==== The problem
 
 If you manage shared data science environments based on Kubernetes, like link:http://opendatahub.io/[Open Data Hub] on link:https://www.redhat.com/en/technologies/cloud-computing/openshift[OpenShift], you may face a container image management problem. That is especially true with interactive environments like Jupyter-as-a-Service. Your users will want to use various Jupyter images that include this or this library or application, at this or this version. Of course it's clearly impossible to create behemoth images including each and every library you're asked for, or to create and manage hundreds (thousands?) of variations of handpicked selection of libraries and apps to fit a specific need.
-Granted, you could let the users pip or conda install everything from scratch every time they launch the environment. But it's not that practical, and not all packages are available through this mean, especially your own private applications.
+Granted, you could let the users pip or conda install everything from scratch every time they launch the environment. But it's not that practical, not all packages are available through this mean, especially your own private applications. Moreover, in an enterprise environment, the as-a-service container won't run as root, so no package can be yum or apt-get installed.
 
 .Your options
 image::doc/img/container_images.png[Your options]
 ++++
 <br>
-++++
-
-NOTE: 
+++++ 
 
 ==== The solution
 
