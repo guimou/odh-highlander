@@ -1,0 +1,74 @@
+== EasyBuild Container image - Fedora 34
+
+This folder contains code and instructions to build and deploy a container image that will allow you to install link:https://easybuild.io/[EasyBuild] and compile modules for the Lmod Jupyter extension.
+
+This is the Fedora 34 based version with Python 3.9.
+
+=== Building the image
+
+[source,bash]
+----
+docker build . -t easybuild-f34-py39:tag
+----
+
+NOTE: pre-built images are available in link:https://quay.io/repository/guimou/easybuild-f34-py39[this repo]. You can use the image tagged "latest" in all the following commands.
+
+=== Initializing a module repo
+
+* Create a local folder for your data (`easybuild-data` in this example).
+* Run the image with:
+
+.First launch to initialize easybuild
+[source,bash]
+----
+docker run --rm -it -v /your_path/easybuild-data:/opt/apps/easybuild:z easybuild-f34-py39:v0.0.1 /opt/apps/src/easybuild_install.sh
+----
+
+* Easybuild will be installed in the data folder and the environment will initialized.
+
+=== Running Easybuild
+
+* Run the image with:
+
+.Launch the EasyBuild environment
+[source,bash]
+----
+docker run --rm -it -v /your_path/easybuild-data:/opt/apps/easybuild:z easybuild-f34-py39:v0.0.1 /opt/apps/src/easybuild_install.sh
+----
+
+* The container will run continuously. Follow the instructions from the logs to connect to it and interact with EasyBuild.
+* For a quick overview on how to use EasyBuild, have a look at the link:https://docs.easybuild.io/en/latest/Typical_workflow_example_with_WRF.html[typical workflow].
+
+=== Adding a module to the "featured" list
+
+If you use the modules within a JupyterLab environment with the customized JupyterLmod extension (see link:https://github.com/guimou/s2i-lmod-notebook[this repo]), you can have specific modules put into a "featured" list, making them more visible. To do that, you only need to copy the module definition into the "featured folder".
+
+* From the `/opt/apps/easybuild/modules` folder, locate the module you want to be featured. Example: Tensorflow is located under `lib/Tensorflow`.
+* Copy the content (command run from the `modules` folder): `cp -R lib/Tensorflow featured/`
+* This command will copy all the modules under the Tensoflow folder. If you want a specific version, only copy the corresponding file, but respect the folder hierarchy.
+
+=== Adding another easyconfig repository to the environment
+
+You can use different sources to provide easyconfigs. You only need to copy those sources locally, then modify the robot paths (the location where EasyBuild looks for modules definition) to include those sources.
+
+* From the running EasyBuild container:
+
+.Create a folder for your repo(s) and change to it
+[source,bash]
+----
+mkdir -p /opt/apps/easybuild/repos && cd /opt/apps/easybuild/repos
+----
+
+.Clone your repo
+[source,bash]
+----
+git clone https://github.com/guimou/odh-easyconfigs.git
+----
+
+.Add the new repo to the configuration file (replace `odh-easybuilds` by your repo folder)
+[source,bash]
+----
+sed -i '\!^robot-paths! s!$!:/opt/apps/easybuild/repos/odh-easyconfigs/!' /opt/apps/easybuild/easybuild.d/config.cfg
+----
+
+NOTE: If you're not a `sed` fan, just append `:path_to_repo` to te end of the `robotpath` line in the configuration file (`/opt/apps/easybuild/easybuild.d/config.cfg`).
