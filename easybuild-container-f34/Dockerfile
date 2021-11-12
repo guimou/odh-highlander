@@ -39,7 +39,7 @@ COPY .bash_profile /opt/app-root/src/.bash_profile
 
 RUN pip install --no-cache-dir --disable-pip-version-check wheel python-graph-core python-graph-dot && \
     chown -R easybuild:0 ${APP_ROOT} && \
-    ln -s /lib64/libldap_r-2.4.so.2 libldap-2.4.so.2 && \
+    ln -s /lib64/libldap_r-2.4.so.2 /lib64/libldap-2.4.so.2 && \
     fix-permissions ${APP_ROOT} -P
 
 ENV PATH="/opt/apps/easybuild/bin:${PATH}"
