@@ -45,7 +45,7 @@ spec:
               memory: 500Mi
           name: easybuild-run
           imagePullPolicy: IfNotPresent
-          image: 'quay.io/guimou/easybuild-ubi8-py39:latest'
+          image: 'quay.io/guimou/easybuild-f34-py39:latest'
           volumeMounts:
             - mountPath: /opt/apps/easybuild
               name: easybuild-data
